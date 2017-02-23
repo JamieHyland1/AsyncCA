@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,12 +54,12 @@ public class MainActivity extends AppCompatActivity {
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             MyTask t = new MyTask();
-            t.execute("param1", "param2", "param3");
+//            t.execute("param1", "param2", "param3");
+            t.execute("http://10.0.2.2/flowers/flowers.xml");
         }
 
         return super.onOptionsItemSelected(item);
     }
-
 
     private class MyTask extends AsyncTask<String, String, String> {
         @Override
@@ -69,14 +70,26 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... strings) {
+            Log.d("log", "in bg");
             for (int i = 0; i < strings.length; i++) {
-                publishProgress("working with" + strings[i]);
+//                publishProgress("working with" + strings[i]);
+                Log.d("log", "in for " +strings[0]);
+                try {
+                    Thread.sleep(2000);
+                    String data = HTTPManager.getData(strings[0]);
+                    publishProgress(data);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
-            try {
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                Thread.sleep(2000);
+//                String data = HTTPManager.getData(strings[0]);
+//                publishProgress(data);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+
             return "task complete";
         }
         protected void onProgressUpdate(String... values)
