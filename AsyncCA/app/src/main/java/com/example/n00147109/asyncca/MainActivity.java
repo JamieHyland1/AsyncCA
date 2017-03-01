@@ -55,12 +55,13 @@ public class MainActivity extends AppCompatActivity {
         if (id == R.id.action_settings) {
             MyTask t = new MyTask();
 //            t.execute("param1", "param2", "param3");
-            t.execute("http://10.0.2.2/flowers/flowers.xml");
+            t.execute("http://10.0.2.2/flowers/Stock.xml");
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    //hello
     private class MyTask extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
